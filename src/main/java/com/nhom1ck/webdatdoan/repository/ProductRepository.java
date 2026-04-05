@@ -1,4 +1,4 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.pdq.entity.Category;
-import com.pdq.entity.Product;
+import com.nhom1ck.webdatdoan.entity.Category;
+import com.nhom1ck.webdatdoan.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {

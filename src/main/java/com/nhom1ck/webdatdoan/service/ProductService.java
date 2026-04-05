@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,15 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.common.PageResponse;
-import com.pdq.dto.product.ProductRequest;
-import com.pdq.dto.product.ProductResponse;
-import com.pdq.entity.Category;
-import com.pdq.entity.Product;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.CategoryRepository;
-import com.pdq.repository.ProductRepository;
+import com.nhom1ck.webdatdoan.dto.common.PageResponse;
+import com.nhom1ck.webdatdoan.dto.product.ProductRequest;
+import com.nhom1ck.webdatdoan.dto.product.ProductResponse;
+import com.nhom1ck.webdatdoan.entity.Category;
+import com.nhom1ck.webdatdoan.entity.Product;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.CategoryRepository;
+import com.nhom1ck.webdatdoan.repository.ProductRepository;
 
 @Service
 @Transactional(readOnly = true)

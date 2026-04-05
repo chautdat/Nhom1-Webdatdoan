@@ -1,4 +1,4 @@
-package com.pdq.entity;
+package com.nhom1ck.webdatdoan.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+private Category category;
 
     @Column(name = "product_name", nullable = false, length = 200)
     private String productName;

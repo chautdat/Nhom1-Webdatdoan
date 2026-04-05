@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,20 +13,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.common.PageResponse;
-import com.pdq.dto.review.ReviewRequest;
-import com.pdq.dto.review.ReviewResponse;
-import com.pdq.entity.Order;
-import com.pdq.entity.Product;
-import com.pdq.entity.Review;
-import com.pdq.entity.ReviewStatus;
-import com.pdq.entity.User;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.OrderRepository;
-import com.pdq.repository.ProductRepository;
-import com.pdq.repository.ReviewRepository;
-import com.pdq.repository.UserRepository;
+import com.nhom1ck.webdatdoan.dto.common.PageResponse;
+import com.nhom1ck.webdatdoan.dto.review.ReviewRequest;
+import com.nhom1ck.webdatdoan.dto.review.ReviewResponse;
+import com.nhom1ck.webdatdoan.entity.Order;
+import com.nhom1ck.webdatdoan.entity.Product;
+import com.nhom1ck.webdatdoan.entity.Review;
+import com.nhom1ck.webdatdoan.entity.ReviewStatus;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.OrderRepository;
+import com.nhom1ck.webdatdoan.repository.ProductRepository;
+import com.nhom1ck.webdatdoan.repository.ReviewRepository;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)
