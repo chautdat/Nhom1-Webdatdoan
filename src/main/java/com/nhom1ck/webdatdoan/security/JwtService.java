@@ -34,7 +34,7 @@ public class JwtService {
             String username = extractClaim(token, Claims::getSubject);
             System.out.println("🔍 Extracted username: " + username);
             return username;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ Error extracting username: " + e.getMessage());
             throw e;
         }
@@ -73,7 +73,7 @@ public class JwtService {
         } catch (io.jsonwebtoken.MalformedJwtException e) {
             System.err.println("❌ Malformed JWT token");
             throw e;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ Error parsing token: " + e.getMessage());
             throw e;
         }
@@ -154,9 +154,8 @@ public class JwtService {
 
             return isValid;
 
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ Token validation exception: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
@@ -173,7 +172,7 @@ public class JwtService {
             }
 
             return expired;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ Error checking token expiration: " + e.getMessage());
             return true; // Treat as expired if can't parse
         }
@@ -189,7 +188,7 @@ public class JwtService {
         try {
             byte[] keyBytes = Decoders.BASE64.decode(secretKey);
             return Keys.hmacShaKeyFor(keyBytes);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ Error decoding secret key: " + e.getMessage());
             System.err.println("❌ Make sure jwt.secret is a valid Base64 string");
             throw e;

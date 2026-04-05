@@ -147,11 +147,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.err.println("❌ JWT FILTER EXCEPTION:");
             System.err.println("❌ Error: " + e.getMessage());
             System.err.println("❌ Class: " + e.getClass().getName());
-            e.printStackTrace();
         }
         
         System.out.println("➡️  Proceeding to next filter...");
