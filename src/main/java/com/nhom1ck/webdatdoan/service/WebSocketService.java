@@ -44,7 +44,7 @@ public class WebSocketService {
         payload.put("action", action);
         payload.put("details", details);
         payload.put("timestamp", System.currentTimeMillis());
-        messagingTemplate.convertAndSend("/topic/kitchen", payload);
+        messagingTemplate.convertAndSend("/topic/kitchen", (Object) payload);
         log.info("👩‍🍳 Sent kitchen notification for order {}", orderId);
     }
 
