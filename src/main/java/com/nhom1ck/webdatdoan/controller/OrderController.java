@@ -23,7 +23,6 @@ import com.nhom1ck.webdatdoan.dto.order.UpdateOrderStatusRequest;
 import com.nhom1ck.webdatdoan.exception.BadRequestException;
 import com.nhom1ck.webdatdoan.service.OrderService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,28 +40,20 @@ public class OrderController {
     // ========================================
 
     /**
-     * CREATE ORDER (VNPay + Cash)
+     * CREATE ORDER
      */
     @PostMapping("/orders")
     @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<Map<String, Object>>> createOrder(
             @RequestBody CreateOrderRequest request,
-            @AuthenticationPrincipal UserDetails userDetails,
-            HttpServletRequest httpRequest) {
-
-        String ipAddress = getClientIp(httpRequest);
+            @AuthenticationPrincipal UserDetails userDetails) {
 
         Map<String, Object> result =
-                orderService.createOrder(userDetails.getUsername(), request, ipAddress);
-
-        boolean requiresPayment =
-                Boolean.TRUE.equals(result.get("requiresPayment"));
+                orderService.createOrder(userDetails.getUsername(), request);
 
         return ResponseEntity.ok(
             ApiResponse.success(
-                requiresPayment
-                        ? "Order created successfully. Please complete payment."
-                        : "Order created successfully",
+                "Order created successfully",
                 result
             )
         );
@@ -127,43 +118,6 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.success("Order cancelled successfully", order));
     }
 
-    /**
-     * RETRY PAYMENT
-     */
-    @PostMapping("/orders/{orderId}/retry-payment")
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> retryPayment(
-            @PathVariable Long orderId,
-            @RequestBody Map<String, String> request,
-            @AuthenticationPrincipal UserDetails userDetails,
-            HttpServletRequest httpRequest) {
-
-        String paymentMethod = request.get("paymentMethod");
-        String ipAddress = getClientIp(httpRequest);
-
-        Map<String, Object> result = orderService.retryPayment(
-                orderId,
-                userDetails.getUsername(),
-                paymentMethod,
-                ipAddress
-        );
-
-        return ResponseEntity.ok(ApiResponse.success("Payment URL created", result));
-    }
-
-    /**
-     * CONVERT TO COD
-     */
-    @PostMapping("/orders/{orderId}/convert-to-cod")
-    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
-    public ResponseEntity<ApiResponse<OrderResponse>> convertToCOD(
-            @PathVariable Long orderId,
-            @AuthenticationPrincipal UserDetails userDetails) {
-
-        OrderResponse order = orderService.convertToCOD(orderId, userDetails.getUsername());
-        return ResponseEntity.ok(ApiResponse.success("Converted to COD", order));
-    }
-
     // ========================================
     // ADMIN ENDPOINTS
     // ========================================
@@ -188,26 +142,5 @@ public class OrderController {
 
         OrderResponse order = orderService.updateOrderStatus(orderId, statusRequest);
         return ResponseEntity.ok(ApiResponse.success("Order status updated successfully", order));
-    }
-
-    // ========================================
-    // HELPER METHODS
-    // ========================================
-
-    /**
-     * Helper: Get Client IP
-     */
-    private String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Real-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        if (ip != null && ip.contains(",")) {
-            ip = ip.split(",")[0].trim();
-        }
-        return ip != null ? ip : "0.0.0.0";
     }
 }

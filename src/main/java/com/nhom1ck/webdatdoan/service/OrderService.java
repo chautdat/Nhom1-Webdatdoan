@@ -1,6 +1,5 @@
 package com.nhom1ck.webdatdoan.service;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +26,6 @@ import com.nhom1ck.webdatdoan.entity.Order;
 import com.nhom1ck.webdatdoan.entity.OrderCancellation;
 import com.nhom1ck.webdatdoan.entity.OrderItem;
 import com.nhom1ck.webdatdoan.entity.OrderStatus;
-import com.nhom1ck.webdatdoan.entity.PaymentLog;
 import com.nhom1ck.webdatdoan.entity.PaymentMethod;
 import com.nhom1ck.webdatdoan.entity.PaymentStatus;
 import com.nhom1ck.webdatdoan.entity.Product;
@@ -40,7 +38,6 @@ import com.nhom1ck.webdatdoan.repository.CartRepository;
 import com.nhom1ck.webdatdoan.repository.OrderCancellationRepository;
 import com.nhom1ck.webdatdoan.repository.OrderItemRepository;
 import com.nhom1ck.webdatdoan.repository.OrderRepository;
-import com.nhom1ck.webdatdoan.repository.PaymentLogRepository;
 import com.nhom1ck.webdatdoan.repository.ProductRepository;
 import com.nhom1ck.webdatdoan.repository.UserRepository;
 
@@ -55,8 +52,6 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final OrderCancellationRepository cancellationRepository;
-    private final PaymentLogRepository paymentLogRepository;
-    private final VNPayService vnPayService;
     private final WebSocketService webSocketService;
 
     private static final BigDecimal DELIVERY_FEE = new BigDecimal("15000");
@@ -68,8 +63,6 @@ public class OrderService {
                        CartItemRepository cartItemRepository,
                        ProductRepository productRepository,
                        OrderCancellationRepository cancellationRepository,
-                       PaymentLogRepository paymentLogRepository,
-                       VNPayService vnPayService,
                        WebSocketService webSocketService) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
@@ -78,13 +71,11 @@ public class OrderService {
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.cancellationRepository = cancellationRepository;
-        this.paymentLogRepository = paymentLogRepository;
-        this.vnPayService = vnPayService;
         this.webSocketService = webSocketService;
     }
 
     @Transactional
-    public Map<String, Object> createOrder(String userEmail, CreateOrderRequest request, String ipAddress) {
+    public Map<String, Object> createOrder(String userEmail, CreateOrderRequest request) {
         System.out.println("\n═══════════════════════════════════════════════════════");
         System.out.println("📝 CREATE ORDER - START");
         System.out.println("═══════════════════════════════════════════════════════");
@@ -184,20 +175,14 @@ public class OrderService {
             order.setTotalAmount(totalAmount);
             order.setFinalAmount(finalAmount);
             
-            // ✅ Set payment method
+            // ✅ Only cash payment is supported
             String paymentMethodStr = request.getPaymentMethod();
-            System.out.println("   → Payment method request: " + paymentMethodStr);
-            
-            PaymentMethod paymentMethod = PaymentMethod.cash; // Default
-            if (paymentMethodStr != null) {
-                String normalized = paymentMethodStr.toUpperCase().trim();
-                if ("VNPAY".equals(normalized)) {
-                    paymentMethod = PaymentMethod.vnpay;
-                } else if ("CASH".equals(normalized)) {
-                    paymentMethod = PaymentMethod.cash;
-                }
+            if (paymentMethodStr != null && !paymentMethodStr.isBlank()
+                    && !"cash".equalsIgnoreCase(paymentMethodStr.trim())) {
+                throw new BadRequestException("Only cash payment is supported");
             }
-            
+            PaymentMethod paymentMethod = PaymentMethod.cash;
+
             order.setPaymentMethod(paymentMethod);
             order.setPaymentStatus(PaymentStatus.pending);
             order.setOrderStatus(OrderStatus.pending);
@@ -208,23 +193,6 @@ public class OrderService {
             System.out.println("6️⃣ Saving order...");
             order = orderRepository.save(order);
             System.out.println("   ✅ Order saved with ID: " + order.getOrderId());
-
-            // ✅ Set payment expiration and log initial attempt for online payments
-            if (paymentMethod == PaymentMethod.vnpay) {
-                order.setPaymentExpiresAt(LocalDateTime.now().plusMinutes(20));
-                order.setRetryCount(0);
-                order.setMaxRetries(1);
-                orderRepository.save(order);
-
-                PaymentLog log = PaymentLog.builder()
-                        .order(order)
-                        .paymentMethod(paymentMethod.name())
-                        .paymentStatus("PENDING")
-                        .amount(order.getFinalAmount())
-                        .retryCount(0)
-                        .build();
-                paymentLogRepository.save(log);
-            }
 
             // 7. Create order items
             System.out.println("7️⃣ Creating order items...");
@@ -266,24 +234,9 @@ public class OrderService {
             cartItemRepository.deleteByCart(cart);
             System.out.println("   ✅ Cart cleared");
 
-            // 9. ✅ Create payment URL (VNPAY)
+            // 9. Broadcast notifications
             Map<String, Object> result = new HashMap<>();
             result.put("order", mapToResponse(order));
-            
-            if (paymentMethod == PaymentMethod.vnpay) {
-                System.out.println("9️⃣ Creating VNPay payment URL...");
-                try {
-                    String paymentUrl = vnPayService.createPaymentUrl(order, ipAddress);
-                    result.put("paymentUrl", paymentUrl);
-                    result.put("requiresPayment", true);
-                    System.out.println("   ✅ VNPay URL created");
-                } catch (UnsupportedEncodingException e) {
-                    System.err.println("   ❌ Error creating VNPay URL: " + e.getMessage());
-                    throw new BadRequestException("Error creating payment URL");
-                }
-            } else {
-                result.put("requiresPayment", false);
-            }
 
             // 10. Gửi thông báo real-time
             webSocketService.broadcastNewOrder(order);
@@ -308,8 +261,6 @@ public class OrderService {
             throw e;
         }
     }
-
-    // ... (GIỮ NGUYÊN TẤT CẢ CÁC METHODS KHÁC - chỉ copy phần dưới này)
 
     public OrderResponse getOrderById(Long orderId, String userEmail) {
         Order order = orderRepository.findById(orderId)
@@ -506,99 +457,6 @@ public class OrderService {
         return mapToResponse(order);
     }
 
-    @Transactional
-    public Map<String, Object> retryPayment(Long orderId, String username, String paymentMethodStr, String ipAddress) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        User user = userRepository.findByEmail(username)
-                .orElseGet(() -> userRepository.findByUsername(username)
-                        .orElseThrow(() -> new ResourceNotFoundException("User not found")));
-
-        if (order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
-            throw new BadRequestException("Access denied");
-        }
-
-        if (order.getPaymentStatus() == PaymentStatus.paid) {
-            throw new BadRequestException("Order already paid");
-        }
-
-        if (order.getRetryCount() != null && order.getMaxRetries() != null
-                && order.getRetryCount() >= order.getMaxRetries()) {
-            throw new BadRequestException("Maximum retry attempts reached");
-        }
-
-        PaymentMethod newPaymentMethod = PaymentMethod.cash;
-        if ("VNPAY".equalsIgnoreCase(paymentMethodStr)) {
-            newPaymentMethod = PaymentMethod.vnpay;
-        }
-
-        order.setPaymentMethod(newPaymentMethod);
-        order.setPaymentExpiresAt(LocalDateTime.now().plusMinutes(20));
-        order.setRetryCount((order.getRetryCount() == null ? 0 : order.getRetryCount()) + 1);
-        orderRepository.save(order);
-
-        PaymentLog log = PaymentLog.builder()
-                .order(order)
-                .paymentMethod(newPaymentMethod.name())
-                .paymentStatus("PENDING")
-                .amount(order.getFinalAmount())
-                .retryCount(order.getRetryCount())
-                .build();
-        paymentLogRepository.save(log);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("order", mapToResponse(order));
-
-        try {
-            if (newPaymentMethod == PaymentMethod.vnpay) {
-                String paymentUrl = vnPayService.createPaymentUrl(order, ipAddress);
-                result.put("paymentUrl", paymentUrl);
-                result.put("requiresPayment", true);
-            } else {
-                result.put("requiresPayment", false);
-            }
-        } catch (Exception e) {
-            throw new BadRequestException("Error creating payment URL: " + e.getMessage());
-        }
-
-        return result;
-    }
-
-    @Transactional
-    public OrderResponse convertToCOD(Long orderId, String username) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        User user = userRepository.findByEmail(username)
-                .orElseGet(() -> userRepository.findByUsername(username)
-                        .orElseThrow(() -> new ResourceNotFoundException("User not found")));
-
-        if (order.getUser() == null || !order.getUser().getUserId().equals(user.getUserId())) {
-            throw new BadRequestException("Access denied");
-        }
-
-        if (order.getPaymentStatus() == PaymentStatus.paid) {
-            throw new BadRequestException("Order already paid");
-        }
-
-        order.setPaymentMethod(PaymentMethod.cash);
-        order.setPaymentStatus(PaymentStatus.pending);
-        order.setPaymentExpiresAt(null);
-        orderRepository.save(order);
-
-        PaymentLog log = PaymentLog.builder()
-                .order(order)
-                .paymentMethod("CASH")
-                .paymentStatus("CONVERTED_TO_COD")
-                .amount(order.getFinalAmount())
-                .retryCount(order.getRetryCount())
-                .build();
-        paymentLogRepository.save(log);
-
-        return mapToResponse(order);
-    }
-
     @Transactional(readOnly = false)
     public OrderResponse confirmCashPayment(Long orderId) {
         Order order = orderRepository.findById(orderId)
@@ -621,12 +479,6 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
-        // Xóa các bảng con trước để tránh lỗi FK (một số DB env có thể chưa áp dụng ON DELETE CASCADE).
-        try {
-            paymentLogRepository.deleteByOrderOrderId(orderId);
-        } catch (Exception e) {
-            System.err.println("⚠️ Failed to delete payment logs for order " + orderId + ": " + e.getMessage());
-        }
         try {
             cancellationRepository.deleteByOrderOrderId(orderId);
         } catch (Exception e) {
@@ -689,9 +541,6 @@ public class OrderService {
         response.setPaymentStatus(order.getPaymentStatus().name());
         response.setOrderStatus(order.getOrderStatus().name());
         response.setNotes(order.getNotes());
-        response.setPaymentExpiresAt(order.getPaymentExpiresAt());
-        response.setRetryCount(order.getRetryCount());
-        response.setMaxRetries(order.getMaxRetries());
         response.setShortCode(buildShortCode(order));
         response.setCreatedAt(order.getCreatedAt());
         response.setUpdatedAt(order.getUpdatedAt());

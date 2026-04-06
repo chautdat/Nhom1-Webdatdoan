@@ -24,7 +24,7 @@ public class CreateOrderRequest {
     private String city;
 
     @NotNull(message = "Payment method is required")
-    private String paymentMethod; // "cash" or "vnpay"
+    private String paymentMethod; // cash only
 
     private String notes;
 }

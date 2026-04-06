@@ -109,15 +109,6 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "payment_expires_at")
-    private LocalDateTime paymentExpiresAt;
-
-    @Column(name = "retry_count")
-    private Integer retryCount = 0;
-
-    @Column(name = "max_retries")
-    private Integer maxRetries = 1;
-
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

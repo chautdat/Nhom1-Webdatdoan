@@ -31,9 +31,6 @@ public class OrderResponse {
     private String notes;
     private String shortCode;
     private List<OrderItemResponse> items = new ArrayList<>();
-    private LocalDateTime paymentExpiresAt;
-    private Integer retryCount;
-    private Integer maxRetries;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

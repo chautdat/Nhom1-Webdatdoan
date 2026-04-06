@@ -50,10 +50,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             PaymentStatus paymentStatus,
             LocalDateTime dateTo);
 
-    List<Order> findByPaymentStatusAndPaymentExpiresAtBefore(
-            PaymentStatus paymentStatus,
-            LocalDateTime expiresAt);
-
     @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE " +
            "o.paymentStatus = 'paid' AND " +
            "o.createdAt >= :startDate AND o.createdAt <= :endDate")
