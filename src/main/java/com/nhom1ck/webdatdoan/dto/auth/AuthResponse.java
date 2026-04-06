@@ -1,4 +1,4 @@
-package com.pdq.dto.auth;
+package com.nhom1ck.webdatdoan.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

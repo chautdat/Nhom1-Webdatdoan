@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,10 +14,10 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.config.VNPayConfig;
-import com.pdq.entity.Order;
-import com.pdq.entity.PaymentStatus;
-import com.pdq.repository.OrderRepository;
+import com.nhom1ck.webdatdoan.config.VNPayConfig;
+import com.nhom1ck.webdatdoan.entity.Order;
+import com.nhom1ck.webdatdoan.entity.PaymentStatus;
+import com.nhom1ck.webdatdoan.repository.OrderRepository;
 
 @Service
 public class VNPayService {

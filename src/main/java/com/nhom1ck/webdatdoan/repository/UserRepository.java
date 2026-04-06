@@ -1,4 +1,4 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.pdq.entity.User;
-import com.pdq.entity.UserRole;
-import com.pdq.entity.UserStatus;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.entity.UserRole;
+import com.nhom1ck.webdatdoan.entity.UserStatus;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

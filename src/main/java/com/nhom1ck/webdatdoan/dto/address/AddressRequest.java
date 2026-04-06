@@ -1,4 +1,4 @@
-package com.pdq.dto.address;
+package com.nhom1ck.webdatdoan.dto.address;
 
 import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonAlias;

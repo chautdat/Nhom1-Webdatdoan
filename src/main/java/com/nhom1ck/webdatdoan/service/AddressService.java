@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,14 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.address.AddressRequest;
-import com.pdq.dto.address.AddressResponse;
-import com.pdq.entity.Address;
-import com.pdq.entity.User;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.AddressRepository;
-import com.pdq.repository.UserRepository;
+import com.nhom1ck.webdatdoan.dto.address.AddressRequest;
+import com.nhom1ck.webdatdoan.dto.address.AddressResponse;
+import com.nhom1ck.webdatdoan.entity.Address;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.AddressRepository;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)

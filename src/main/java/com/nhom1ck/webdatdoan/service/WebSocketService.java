@@ -1,9 +1,9 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
-import com.pdq.dto.OrderWebSocketMessage;
-import com.pdq.dto.websocket.OrderStatusUpdate;
-import com.pdq.entity.Order;
-import com.pdq.entity.OrderItem;
+import com.nhom1ck.webdatdoan.dto.OrderWebSocketMessage;
+import com.nhom1ck.webdatdoan.dto.websocket.OrderStatusUpdate;
+import com.nhom1ck.webdatdoan.entity.Order;
+import com.nhom1ck.webdatdoan.entity.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

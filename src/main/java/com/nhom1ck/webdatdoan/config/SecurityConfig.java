@@ -1,4 +1,4 @@
-package com.pdq.config;
+package com.nhom1ck.webdatdoan.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.pdq.security.JwtAuthenticationFilter;
+import com.nhom1ck.webdatdoan.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

@@ -1,4 +1,4 @@
-package com.pdq.config;
+package com.nhom1ck.webdatdoan.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

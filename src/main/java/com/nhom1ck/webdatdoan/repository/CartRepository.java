@@ -1,7 +1,7 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
-import com.pdq.entity.Cart;
-import com.pdq.entity.User;
+import com.nhom1ck.webdatdoan.entity.Cart;
+import com.nhom1ck.webdatdoan.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.pdq.dto;
+package com.nhom1ck.webdatdoan.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

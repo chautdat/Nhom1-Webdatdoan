@@ -1,7 +1,7 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
-import com.pdq.entity.Order;
-import com.pdq.entity.OrderItem;
+import com.nhom1ck.webdatdoan.entity.Order;
+import com.nhom1ck.webdatdoan.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

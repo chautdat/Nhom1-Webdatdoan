@@ -1,4 +1,4 @@
-package com.pdq.dto.auth;
+package com.nhom1ck.webdatdoan.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

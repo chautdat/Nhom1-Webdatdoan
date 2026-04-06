@@ -1,4 +1,4 @@
-package com.pdq.dto.order;
+package com.nhom1ck.webdatdoan.dto.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.pdq.vnpaydemo;
+package com.nhom1ck.webdatdoan.vnpaydemo;
 
 public class VnPayConfig {
 

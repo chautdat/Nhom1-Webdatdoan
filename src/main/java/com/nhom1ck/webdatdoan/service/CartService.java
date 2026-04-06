@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -7,18 +7,18 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.cart.AddToCartRequest;
-import com.pdq.dto.cart.CartResponse;
-import com.pdq.entity.Cart;
-import com.pdq.entity.CartItem;
-import com.pdq.entity.Product;
-import com.pdq.entity.User;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.CartItemRepository;
-import com.pdq.repository.CartRepository;
-import com.pdq.repository.ProductRepository;
-import com.pdq.repository.UserRepository;
+import com.nhom1ck.webdatdoan.dto.cart.AddToCartRequest;
+import com.nhom1ck.webdatdoan.dto.cart.CartResponse;
+import com.nhom1ck.webdatdoan.entity.Cart;
+import com.nhom1ck.webdatdoan.entity.CartItem;
+import com.nhom1ck.webdatdoan.entity.Product;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.CartItemRepository;
+import com.nhom1ck.webdatdoan.repository.CartRepository;
+import com.nhom1ck.webdatdoan.repository.ProductRepository;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
 
 @Service
 @Transactional // 🔥 SỬA: KHÔNG readOnly nữa

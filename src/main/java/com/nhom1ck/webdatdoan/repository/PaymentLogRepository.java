@@ -1,6 +1,6 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
-import com.pdq.entity.PaymentLog;
+import com.nhom1ck.webdatdoan.entity.PaymentLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

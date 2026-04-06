@@ -1,4 +1,4 @@
-package com.pdq.dto.admin;
+package com.nhom1ck.webdatdoan.dto.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

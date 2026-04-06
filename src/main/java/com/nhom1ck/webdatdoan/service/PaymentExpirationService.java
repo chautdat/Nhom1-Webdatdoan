@@ -1,11 +1,11 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
-import com.pdq.entity.Order;
-import com.pdq.entity.PaymentLog;
-import com.pdq.entity.PaymentMethod;
-import com.pdq.entity.PaymentStatus;
-import com.pdq.repository.OrderRepository;
-import com.pdq.repository.PaymentLogRepository;
+import com.nhom1ck.webdatdoan.entity.Order;
+import com.nhom1ck.webdatdoan.entity.PaymentLog;
+import com.nhom1ck.webdatdoan.entity.PaymentMethod;
+import com.nhom1ck.webdatdoan.entity.PaymentStatus;
+import com.nhom1ck.webdatdoan.repository.OrderRepository;
+import com.nhom1ck.webdatdoan.repository.PaymentLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

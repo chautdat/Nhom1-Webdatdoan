@@ -1,4 +1,4 @@
-package com.pdq.dto.websocket;
+package com.nhom1ck.webdatdoan.dto.websocket;
 
 import java.time.LocalDateTime;
 

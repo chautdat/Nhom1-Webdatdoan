@@ -1,4 +1,4 @@
-package com.pdq.vnpaydemo;
+package com.nhom1ck.webdatdoan.vnpaydemo;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

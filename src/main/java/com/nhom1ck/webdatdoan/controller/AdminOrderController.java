@@ -1,4 +1,4 @@
-package com.pdq.controller;
+package com.nhom1ck.webdatdoan.controller;
 
 import java.util.Map;
 
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pdq.dto.common.ApiResponse;
-import com.pdq.dto.common.PageResponse;
-import com.pdq.dto.order.OrderResponse;
-import com.pdq.dto.order.UpdateOrderStatusRequest;
-import com.pdq.exception.BadRequestException;
-import com.pdq.service.OrderService;
+import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
+import com.nhom1ck.webdatdoan.dto.common.PageResponse;
+import com.nhom1ck.webdatdoan.dto.order.OrderResponse;
+import com.nhom1ck.webdatdoan.dto.order.UpdateOrderStatusRequest;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.service.OrderService;
 
 /**
  * Admin-specific endpoints for orders.

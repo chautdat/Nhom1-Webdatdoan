@@ -1,4 +1,4 @@
-package com.pdq.repository;
+package com.nhom1ck.webdatdoan.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.pdq.entity.Address;
-import com.pdq.entity.User;
+import com.nhom1ck.webdatdoan.entity.Address;
+import com.nhom1ck.webdatdoan.entity.User;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {

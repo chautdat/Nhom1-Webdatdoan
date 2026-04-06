@@ -1,4 +1,4 @@
-package com.pdq.controller;
+package com.nhom1ck.webdatdoan.controller;
 
 import java.util.Map;
 
@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import com.pdq.dto.common.ApiResponse;
-import com.pdq.dto.user.ChangePasswordRequest;
-import com.pdq.dto.user.UpdateProfileRequest;
-import com.pdq.entity.User;
-import com.pdq.entity.UserRole;
-import com.pdq.entity.UserStatus;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.UserRepository;
+import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
+import com.nhom1ck.webdatdoan.dto.user.ChangePasswordRequest;
+import com.nhom1ck.webdatdoan.dto.user.UpdateProfileRequest;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.entity.UserRole;
+import com.nhom1ck.webdatdoan.entity.UserStatus;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
 
 import jakarta.validation.Valid;
 

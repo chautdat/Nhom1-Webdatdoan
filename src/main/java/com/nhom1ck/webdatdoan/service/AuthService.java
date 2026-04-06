@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -6,16 +6,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.auth.AuthResponse;
-import com.pdq.dto.auth.LoginRequest;
-import com.pdq.dto.auth.RegisterRequest;
-import com.pdq.entity.User;
-import com.pdq.entity.UserRole;
-import com.pdq.entity.UserStatus;
-import com.pdq.exception.BadRequestException;
-import com.pdq.exception.ResourceNotFoundException;
-import com.pdq.repository.UserRepository;
-import com.pdq.security.JwtService;
+import com.nhom1ck.webdatdoan.dto.auth.AuthResponse;
+import com.nhom1ck.webdatdoan.dto.auth.LoginRequest;
+import com.nhom1ck.webdatdoan.dto.auth.RegisterRequest;
+import com.nhom1ck.webdatdoan.entity.User;
+import com.nhom1ck.webdatdoan.entity.UserRole;
+import com.nhom1ck.webdatdoan.entity.UserStatus;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
+import com.nhom1ck.webdatdoan.security.JwtService;
 
 @Service
 public class AuthService {

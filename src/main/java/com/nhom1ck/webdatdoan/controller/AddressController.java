@@ -1,4 +1,4 @@
-package com.pdq.controller;
+package com.nhom1ck.webdatdoan.controller;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pdq.dto.address.AddressRequest;
-import com.pdq.dto.address.AddressResponse;
-import com.pdq.dto.common.ApiResponse;
-import com.pdq.exception.BadRequestException;
-import com.pdq.service.AddressService;
+import com.nhom1ck.webdatdoan.dto.address.AddressRequest;
+import com.nhom1ck.webdatdoan.dto.address.AddressResponse;
+import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.service.AddressService;
 
 import jakarta.validation.Valid;
 

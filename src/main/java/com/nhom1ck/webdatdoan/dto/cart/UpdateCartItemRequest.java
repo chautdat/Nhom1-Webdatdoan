@@ -1,4 +1,4 @@
-package com.pdq.dto.cart;
+package com.nhom1ck.webdatdoan.dto.cart;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

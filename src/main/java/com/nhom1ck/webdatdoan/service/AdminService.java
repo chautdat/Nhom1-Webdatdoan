@@ -1,4 +1,4 @@
-package com.pdq.service;
+package com.nhom1ck.webdatdoan.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,11 +9,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pdq.dto.admin.StatisticsResponse;
-import com.pdq.entity.OrderStatus;
-import com.pdq.repository.OrderRepository;
-import com.pdq.repository.ProductRepository;
-import com.pdq.repository.UserRepository;
+import com.nhom1ck.webdatdoan.dto.admin.StatisticsResponse;
+import com.nhom1ck.webdatdoan.entity.OrderStatus;
+import com.nhom1ck.webdatdoan.repository.OrderRepository;
+import com.nhom1ck.webdatdoan.repository.ProductRepository;
+import com.nhom1ck.webdatdoan.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)

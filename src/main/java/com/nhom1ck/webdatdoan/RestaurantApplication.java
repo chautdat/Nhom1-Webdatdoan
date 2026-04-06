@@ -1,4 +1,4 @@
-package com.pdq;
+package com.nhom1ck.webdatdoan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

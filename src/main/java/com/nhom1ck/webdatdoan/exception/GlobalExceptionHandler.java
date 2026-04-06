@@ -1,4 +1,4 @@
-package com.pdq.exception;
+package com.nhom1ck.webdatdoan.exception;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.pdq.dto.common.ApiResponse;
+import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

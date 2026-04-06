@@ -1,4 +1,4 @@
-package com.pdq.dto;
+package com.nhom1ck.webdatdoan.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
