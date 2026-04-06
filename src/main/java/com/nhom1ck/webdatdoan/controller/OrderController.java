@@ -1,0 +1,146 @@
+package com.nhom1ck.webdatdoan.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
+import com.nhom1ck.webdatdoan.dto.order.CancelOrderRequest;
+import com.nhom1ck.webdatdoan.dto.order.CreateOrderRequest;
+import com.nhom1ck.webdatdoan.dto.order.OrderResponse;
+import com.nhom1ck.webdatdoan.dto.order.UpdateOrderStatusRequest;
+import com.nhom1ck.webdatdoan.exception.BadRequestException;
+import com.nhom1ck.webdatdoan.service.OrderService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+public class OrderController {
+
+    private final OrderService orderService;
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    // ========================================
+    // CUSTOMER/USER ENDPOINTS
+    // ========================================
+
+    /**
+     * CREATE ORDER
+     */
+    @PostMapping("/orders")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> createOrder(
+            @RequestBody CreateOrderRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Map<String, Object> result =
+                orderService.createOrder(userDetails.getUsername(), request);
+
+        return ResponseEntity.ok(
+            ApiResponse.success(
+                "Order created successfully",
+                result
+            )
+        );
+    }
+
+    /**
+     * GET ORDER BY ID
+     */
+    @GetMapping("/orders/{orderId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(
+            @PathVariable Long orderId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        OrderResponse order =
+                orderService.getOrderById(orderId, userDetails.getUsername());
+
+        return ResponseEntity.ok(ApiResponse.success("Order retrieved successfully", order));
+    }
+
+    /**
+     * GET ORDER BY NUMBER
+     */
+    @GetMapping("/orders/number/{orderNumber}")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderByNumber(
+            @PathVariable String orderNumber,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        OrderResponse order =
+                orderService.getOrderByNumber(orderNumber, userDetails.getUsername());
+
+        return ResponseEntity.ok(ApiResponse.success("Order retrieved successfully", order));
+    }
+
+    /**
+     * GET MY ORDERS (User)
+     */
+    @GetMapping("/orders/my-orders")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> getMyOrders(
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        List<OrderResponse> orders =
+                orderService.getOrdersByUsername(userDetails.getUsername());
+
+        return ResponseEntity.ok(ApiResponse.success("Orders retrieved successfully", orders));
+    }
+
+    /**
+     * CANCEL ORDER
+     */
+    @PostMapping("/orders/{orderId}/cancel")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<OrderResponse>> cancelOrder(
+            @PathVariable Long orderId,
+            @Valid @RequestBody CancelOrderRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        OrderResponse order = orderService.cancelOrder(orderId, userDetails.getUsername(), request);
+
+        return ResponseEntity.ok(ApiResponse.success("Order cancelled successfully", order));
+    }
+
+    // ========================================
+    // ADMIN ENDPOINTS
+    // ========================================
+
+    /**
+     * UPDATE ORDER STATUS (Admin) - Fallback endpoint for compatibility
+     */
+    @PatchMapping("/orders/{orderId}/status")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<OrderResponse>> updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestBody Map<String, String> request) {
+
+        System.out.println("🔄 Fallback endpoint called - redirecting to admin handler");
+        String newStatus = request.get("status");
+        if (newStatus == null || newStatus.trim().isEmpty()) {
+            throw new BadRequestException("Status is required");
+        }
+
+        UpdateOrderStatusRequest statusRequest = new UpdateOrderStatusRequest();
+        statusRequest.setStatus(newStatus.toLowerCase().trim());
+
+        OrderResponse order = orderService.updateOrderStatus(orderId, statusRequest);
+        return ResponseEntity.ok(ApiResponse.success("Order status updated successfully", order));
+    }
+}
