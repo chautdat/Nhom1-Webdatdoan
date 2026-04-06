@@ -14,7 +14,6 @@ import Thank from "../pages/Thank.vue";
 import MyOrder from "../pages/MyOrder.vue";
 import Profile from "../pages/Profile.vue";
 import OrderReview from "../pages/OrderReview.vue";
-import PaymentReturn from "../pages/PaymentReturn.vue";
 
 // --- ADMIN ---
 import AdminLayout from "@/admin/AdminLayout.vue";
@@ -50,19 +49,6 @@ const routes = [
     name: "ThankYou",
     component: Thank,
     meta: { role: "user" },
-  },
-
-  {
-    path: "/payment/return",
-    name: "PaymentReturn",
-    component: PaymentReturn,
-    meta: { role: "user", auth: true },
-  },
-  {
-    path: "/payment/callback",
-    name: "PaymentCallback",
-    component: () => import("@/pages/PaymentCallback.vue"),
-    meta: { role: "user", auth: true },
   },
 
   {

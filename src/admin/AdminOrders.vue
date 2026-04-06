@@ -56,7 +56,6 @@
               </span>
             </template>
 
-            <!-- VNPAY: chỉ xem -->
             <template v-else>
               <span
                 class="badge"

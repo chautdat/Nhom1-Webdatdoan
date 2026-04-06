@@ -570,7 +570,6 @@ export default {
     formatPaymentMethod(method) {
       const normalized = String(method || "").toUpperCase();
       if (normalized === "CASH") return "Tiền mặt";
-      if (normalized === "VNPAY") return "VNPay";
       return method || "Không rõ";
     },
 

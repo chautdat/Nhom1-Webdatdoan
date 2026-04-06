@@ -234,34 +234,9 @@
               </div>
             </div>
 
-            <!-- Payment Warning -->
-            <div v-if="showPaymentActions(order)" class="payment-alert">
-              <div class="alert-content">
-                <i class="fas fa-exclamation-circle"></i>
-                <span>Thanh toán online chưa hoàn tất</span>
-                <span v-if="getRemainingTime(order)" class="time-left">
-                  {{ getRemainingTime(order) }}
-                </span>
-              </div>
+            <!-- Actions -->
+            <div class="payment-alert">
               <div class="alert-actions">
-                <button
-                  v-if="canRetryPayment(order)"
-                  @click="retryPayment(order)"
-                  class="btn btn-primary"
-                  :disabled="actionLoading"
-                >
-                  <i class="fas fa-redo"></i>
-                  Thanh toán lại
-                </button>
-                <button
-                  v-if="canConvertToCOD(order)"
-                  @click="convertToCOD(order)"
-                  class="btn btn-secondary"
-                  :disabled="actionLoading"
-                >
-                  <i class="fas fa-money-bill"></i>
-                  Chuyển COD
-                </button>
                 <button
                   v-if="canUserCancel(order)"
                   @click="cancelOrder(order)"
@@ -348,7 +323,6 @@ export default {
       actionLoading: false,
       refreshTimer: null,
       autoRefreshMs: 7000,
-      countdownTimer: null,
       selectedDate: "",
 
       // ========== MAPS (OSM/Leaflet) ==========
@@ -398,17 +372,10 @@ export default {
     this.loadOrders();
     this.ensureLeaflet(); // Load Leaflet
     this.startAutoRefresh();
-    this.countdownTimer = setInterval(() => {
-      this.$forceUpdate();
-    }, 1000);
   },
 
   beforeUnmount() {
     this.stopAutoRefresh();
-    if (this.countdownTimer) {
-      clearInterval(this.countdownTimer);
-      this.countdownTimer = null;
-    }
   },
 
   methods: {
@@ -697,7 +664,7 @@ export default {
 
     getPaymentMethodText(m) {
       const key = this.normalizeStatus(m);
-      const map = { cash: "Tiền mặt", vnpay: "VNPay" };
+      const map = { cash: "Tiền mặt" };
       return map[key] || m || "Khác";
     },
 
@@ -819,39 +786,6 @@ export default {
       return primary || 0;
     },
 
-    canRetryPayment(order) {
-      return (
-        this.normalizeStatus(order.paymentStatus) === "pending" &&
-        this.normalizeStatus(order.paymentMethod) === "vnpay" &&
-        (order.retryCount || 0) < (order.maxRetries || 0) &&
-        this.getRemainingTime(order) !== null
-      );
-    },
-
-    canConvertToCOD(order) {
-      return (
-        this.normalizeStatus(order.paymentStatus) === "pending" &&
-        this.normalizeStatus(order.paymentMethod) === "vnpay"
-      );
-    },
-
-    showPaymentActions(order) {
-      const status = this.normalizeStatus(order.orderStatus);
-      if (status === "cancelled") return false;
-      return this.canRetryPayment(order) || this.canConvertToCOD(order);
-    },
-
-    getRemainingTime(order) {
-      if (!order.paymentExpiresAt) return null;
-      const expiresAt = new Date(order.paymentExpiresAt);
-      const now = new Date();
-      const diff = expiresAt - now;
-      if (diff <= 0) return null;
-      const minutes = Math.floor(diff / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    },
-
     canUserCancel(order) {
       const status = this.normalizeStatus(order.orderStatus);
       if (status !== "pending") return false;
@@ -915,91 +849,6 @@ export default {
       }
     },
 
-    async retryPayment(order) {
-      try {
-        this.actionLoading = true;
-        const token = storage.getToken();
-
-        const result = await Swal.fire({
-          title: "Chọn phương thức thanh toán",
-          width: 520,
-          input: "select",
-          inputOptions: {
-            VNPAY: "VNPay",
-          },
-          inputValue: this.normalizeStatus(order.paymentMethod).toUpperCase(),
-          showCancelButton: true,
-          confirmButtonText: "Tiếp tục",
-          cancelButtonText: "Hủy",
-        });
-
-        if (!result.isConfirmed) return;
-
-        const res = await api.post(
-          `/orders/${order.orderId}/retry-payment`,
-          { paymentMethod: result.value },
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-
-        if (res.data?.data?.paymentUrl) {
-          window.location.href = res.data.data.paymentUrl;
-        } else {
-          Swal.fire("Đã chuyển COD", "", "success");
-          this.loadOrders();
-        }
-      } catch (err) {
-        console.error("Retry payment error:", err);
-        Swal.fire(
-          "Lỗi",
-          err?.response?.data?.message || "Không thể thanh toán lại",
-          "error",
-        );
-      } finally {
-        this.actionLoading = false;
-      }
-    },
-
-    async convertToCOD(order) {
-      const confirm = await Swal.fire({
-        title: "Chuyển sang thanh toán tiền mặt?",
-        text: "Đơn sẽ thanh toán khi nhận hàng.",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#00b067",
-        cancelButtonColor: "#6b7280",
-        confirmButtonText: "Xác nhận",
-        cancelButtonText: "Hủy",
-      });
-
-      if (!confirm.isConfirmed) return;
-
-      try {
-        this.actionLoading = true;
-        const token = storage.getToken();
-        await api.post(
-          `/orders/${order.orderId}/convert-to-cod`,
-          {},
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-
-        Swal.fire({
-          icon: "success",
-          title: "Đã chuyển sang COD",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.loadOrders();
-      } catch (err) {
-        console.error("Convert COD error:", err);
-        Swal.fire(
-          "Lỗi",
-          err?.response?.data?.message || "Không thể chuyển sang COD",
-          "error",
-        );
-      } finally {
-        this.actionLoading = false;
-      }
-    },
   },
 };
 </script>

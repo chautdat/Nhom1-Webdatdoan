@@ -375,7 +375,6 @@ export default {
     formatPaymentMethod(method) {
       const m = String(method || "").toUpperCase();
       if (m === "CASH") return "Tiền mặt";
-      if (m === "VNPAY") return "VNPay";
       return method || "Không rõ";
     },
     formatPrice(value) {

@@ -159,43 +159,7 @@
                   </div>
                   <span class="check-mark">✓</span>
                 </label>
-
-                <label
-                  class="payment-card"
-                  :class="{ selected: checkoutObj.paymentMethod === 'vnpay' }"
-                >
-                  <input
-                    type="radio"
-                    value="vnpay"
-                    v-model="checkoutObj.paymentMethod"
-                  />
-                  <div class="payment-content">
-                    <span class="payment-icon">💳</span>
-                    <div class="payment-info">
-                      <h4>VNPay</h4>
-                      <p>Thanh toán qua cổng VNPay</p>
-                    </div>
-                  </div>
-                  <span class="check-mark">✓</span>
-                </label>
               </div>
-
-              <!-- VNPay Notice -->
-              <transition name="fade">
-                <div
-                  v-if="checkoutObj.paymentMethod === 'vnpay'"
-                  class="vnpay-notice"
-                >
-                  <div class="notice-icon">ℹ️</div>
-                  <div class="notice-content">
-                    <strong>Thanh toán qua VNPay</strong>
-                    <p>
-                      Sau khi nhấn "Xác nhận đặt hàng", bạn sẽ được chuyển đến
-                      trang thanh toán VNPay an toàn.
-                    </p>
-                  </div>
-                </div>
-              </transition>
 
               <p v-if="errorObj.payErr.length" class="error-message">
                 {{ errorObj.payErr[0] }}
@@ -212,18 +176,10 @@
             >
               <span v-if="isSubmitting">
                 <span class="spinner"></span>
-                {{
-                  checkoutObj.paymentMethod === "vnpay"
-                    ? "Đang chuyển hướng..."
-                    : "Đang xử lý..."
-                }}
+                Đang xử lý...
               </span>
               <span v-else>
-                {{
-                  checkoutObj.paymentMethod === "vnpay"
-                    ? "💳 XÁC NHẬN & THANH TOÁN VNPAY"
-                    : "✓ XÁC NHẬN ĐẶT HÀNG"
-                }}
+                ✓ XÁC NHẬN ĐẶT HÀNG
               </span>
             </button>
 
@@ -513,29 +469,6 @@ export default {
 
         await this.clearCartAfterOrder(token);
         await this.loadCart();
-
-        // ✅ PAYMENT REDIRECT (VNPay)
-        if (responseData.requiresPayment && responseData.paymentUrl) {
-          console.log("💳 Redirecting to Payment Gateway...");
-
-          storage.set(STORAGE_KEYS.pendingOrderId, responseData.order.orderId);
-          storage.set(
-            STORAGE_KEYS.pendingOrderNumber,
-            responseData.order.orderNumber,
-          );
-
-          await Swal.fire({
-            title: "Đang chuyển hướng...",
-            text: "Bạn sẽ được chuyển đến trang thanh toán an toàn",
-            icon: "info",
-            timer: 2000,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-          });
-
-          window.location.href = responseData.paymentUrl;
-          return;
-        }
 
         // ✅ CASH PAYMENT
         const orderInfo = responseData.order || {};
@@ -981,36 +914,6 @@ export default {
 
 .payment-card.selected .check-mark {
   background: #10b981;
-}
-
-/* VNPay Notice */
-.vnpay-notice {
-  margin-top: 1rem;
-  padding: 1.25rem;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-left: 4px solid #3b82f6;
-  border-radius: 10px;
-  display: flex;
-  gap: 1rem;
-}
-
-.notice-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.notice-content strong {
-  display: block;
-  color: #1e40af;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
-}
-
-.notice-content p {
-  color: #1e3a8a;
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0;
 }
 
 /* Action Buttons */

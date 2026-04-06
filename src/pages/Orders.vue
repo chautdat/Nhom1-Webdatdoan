@@ -68,39 +68,6 @@
             </div>
           </div>
           <div class="order-actions">
-            <div
-              v-if="canRetryPayment(order) || canConvertToCOD(order)"
-              class="payment-warning"
-            >
-              <div>
-                ⏳ Thanh toán online chưa hoàn tất
-                <span v-if="getRemainingTime(order)" class="countdown">
-                  ({{ getRemainingTime(order) }})
-                </span>
-              </div>
-              <div class="payment-actions-inline">
-                <button
-                  v-if="canRetryPayment(order)"
-                  class="btn btn-warning"
-                  @click="retryPayment(order)"
-                  :disabled="isLoading"
-                >
-                  💳 Thanh toán lại
-                  <span v-if="getRemainingTime(order)" class="countdown">
-                    ({{ getRemainingTime(order) }})
-                  </span>
-                </button>
-                <button
-                  v-if="canConvertToCOD(order)"
-                  class="btn btn-outline"
-                  @click="convertToCOD(order)"
-                  :disabled="isLoading"
-                >
-                  💵 Chuyển sang tiền mặt
-                </button>
-              </div>
-            </div>
-
             <button
               v-if="(order.status || '').toUpperCase() === 'PENDING'"
               class="btn btn-danger"
@@ -147,11 +114,9 @@ export default {
     return {
       orders: [],
       loading: false,
-      isLoading: false,
       activeFilter: "ALL",
       showCancelModal: false,
       selectedOrder: null,
-      countdownInterval: null,
       orderStatuses: [
         { value: "ALL", label: "Tất cả" },
         { value: "PENDING", label: "Chờ xác nhận" },
@@ -175,15 +140,6 @@ export default {
 
   mounted() {
     this.loadOrders();
-    this.countdownInterval = setInterval(() => {
-      this.$forceUpdate();
-    }, 1000);
-  },
-
-  beforeUnmount() {
-    if (this.countdownInterval) {
-      clearInterval(this.countdownInterval);
-    }
   },
 
   methods: {
@@ -277,113 +233,6 @@ export default {
 
     viewDetails(order) {
       this.$router.push(`/orders/${order.orderId}/track`);
-    },
-
-    canRetryPayment(order) {
-      return (
-        (order.paymentStatus || "").toUpperCase() === "PENDING" &&
-        order.paymentMethod === "VNPAY" &&
-        (order.retryCount || 0) < (order.maxRetries || 0) &&
-        this.getRemainingTime(order) !== null
-      );
-    },
-
-    canConvertToCOD(order) {
-      return (
-        (order.paymentStatus || "").toUpperCase() === "PENDING" &&
-        order.paymentMethod === "VNPAY"
-      );
-    },
-
-    getRemainingTime(order) {
-      if (!order.paymentExpiresAt) return null;
-      const expiresAt = new Date(order.paymentExpiresAt);
-      const now = new Date();
-      const diff = expiresAt - now;
-      if (diff <= 0) return null;
-      const minutes = Math.floor(diff / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-      return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    },
-
-    async retryPayment(order) {
-      try {
-        this.isLoading = true;
-        const token = storage.getToken();
-
-        const result = await this.$swal.fire({
-          title: "Chọn phương thức thanh toán",
-          input: "select",
-          inputOptions: {
-            VNPAY: "VNPay",
-          },
-          inputValue: order.paymentMethod,
-          showCancelButton: true,
-          confirmButtonText: "Tiếp tục",
-          cancelButtonText: "Hủy",
-        });
-
-        if (!result.isConfirmed) return;
-
-        const res = await api.post(
-          `/orders/${order.orderId}/retry-payment`,
-          { paymentMethod: result.value },
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-
-        if (res.data?.data?.paymentUrl) {
-          window.location.href = res.data.data.paymentUrl;
-        } else {
-          alert("✅ Đã chuyển sang thanh toán tiền mặt");
-          this.loadOrders();
-        }
-      } catch (err) {
-        console.error("❌ Error retry payment:", err);
-        alert(err?.response?.data?.message || "Không thể thanh toán lại");
-      } finally {
-        this.isLoading = false;
-      }
-    },
-
-    async convertToCOD(order) {
-      const result = await this.$swal.fire({
-        title: "Chuyển sang thanh toán tiền mặt?",
-        text: "Đơn hàng sẽ chuyển sang phương thức thanh toán khi nhận hàng",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#00b067",
-        cancelButtonColor: "#6b7280",
-        confirmButtonText: "Xác nhận",
-        cancelButtonText: "Hủy",
-      });
-
-      if (!result.isConfirmed) return;
-
-      try {
-        this.isLoading = true;
-        const token = storage.getToken();
-
-        await api.post(
-          `/orders/${order.orderId}/convert-to-cod`,
-          {},
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-
-        this.$swal.fire({
-          icon: "success",
-          title: "Đã chuyển!",
-          text: "Đơn hàng đã chuyển sang thanh toán tiền mặt",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        this.loadOrders();
-      } catch (err) {
-        console.error("❌ Error convert to COD:", err);
-        alert(err?.response?.data?.message || "Không thể chuyển đổi");
-      } finally {
-        this.isLoading = false;
-      }
     },
   },
 };

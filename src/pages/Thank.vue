@@ -40,12 +40,6 @@
         </div>
       </div>
 
-      <!-- VNPAY SUCCESS INFO -->
-      <div v-if="isVNPaySuccess" class="vnpay-success">
-        <p>💳 <strong>Thanh toán VNPay thành công!</strong></p>
-        <p>Đơn hàng của bạn đã được thanh toán qua VNPay.</p>
-      </div>
-
       <!-- ACTIONS -->
       <div class="actions">
         <button @click="goToOrderDetail" class="btn btn-primary" v-if="orderId">
@@ -72,24 +66,15 @@ export default {
       orderNumber: null,
       orderInfo: null,
       paymentStatus: "success", // 'success' hoặc 'warning'
-      isVNPaySuccess: false,
     };
   },
 
   computed: {
     pageTitle() {
-      if (this.paymentStatus === "success") {
-        return this.isVNPaySuccess
-          ? "Thanh toán thành công!"
-          : "Đặt hàng thành công!";
-      }
-      return "Đơn hàng đã được tạo";
+      return "Đặt hàng thành công!";
     },
 
     pageMessage() {
-      if (this.paymentStatus === "success" && this.isVNPaySuccess) {
-        return "Cảm ơn bạn đã đặt hàng và thanh toán qua VNPay. Đơn hàng của bạn đang được xử lý.";
-      }
       return "Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn sớm nhất!";
     },
   },
@@ -114,16 +99,6 @@ export default {
 
       console.log("   Order ID:", this.orderId);
       console.log("   Order Number:", this.orderNumber);
-
-      // ✅ KIỂM TRA VNPAY PAYMENT
-      if (query.payment === "success") {
-        this.isVNPaySuccess = true;
-        this.paymentStatus = "success";
-        console.log("   ✅ VNPay payment success detected");
-      } else if (query.payment === "failed") {
-        this.paymentStatus = "warning";
-        console.log("   ❌ VNPay payment failed detected");
-      }
 
       // ✅ LOAD ORDER DETAILS
       if (this.orderId) {
@@ -199,7 +174,6 @@ export default {
     getPaymentMethodText(method) {
       const methods = {
         cash: "Tiền mặt",
-        vnpay: "VNPay",
         momo: "MoMo",
         bank_transfer: "Chuyển khoản",
       };
@@ -336,26 +310,6 @@ h1 {
 .detail-row strong {
   color: #1f2937;
   font-size: 1rem;
-}
-
-.vnpay-success {
-  background: #dbeafe;
-  border-left: 4px solid #3b82f6;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  text-align: left;
-}
-
-.vnpay-success p {
-  margin: 0;
-  color: #1e40af;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.vnpay-success p:first-child {
-  margin-bottom: 0.5rem;
 }
 
 .actions {
