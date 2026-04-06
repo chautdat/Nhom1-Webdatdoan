@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.controller;
+package com.pdq.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nhom1ck.webdatdoan.dto.auth.AuthResponse;
-import com.nhom1ck.webdatdoan.dto.auth.LoginRequest;
-import com.nhom1ck.webdatdoan.dto.auth.RegisterRequest;
-import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
-import com.nhom1ck.webdatdoan.exception.BadRequestException;
-import com.nhom1ck.webdatdoan.service.AuthService;
+import com.pdq.dto.auth.AuthResponse;
+import com.pdq.dto.auth.LoginRequest;
+import com.pdq.dto.auth.RegisterRequest;
+import com.pdq.dto.common.ApiResponse;
+import com.pdq.exception.BadRequestException;
+import com.pdq.service.AuthService;
 
 import jakarta.validation.Valid;
 

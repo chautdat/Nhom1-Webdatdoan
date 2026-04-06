@@ -1,10 +1,10 @@
-package com.nhom1ck.webdatdoan.repository;
+package com.pdq.repository;
 
-import com.nhom1ck.webdatdoan.entity.Order;
-import com.nhom1ck.webdatdoan.entity.OrderStatus;
-import com.nhom1ck.webdatdoan.entity.PaymentMethod;
-import com.nhom1ck.webdatdoan.entity.PaymentStatus;
-import com.nhom1ck.webdatdoan.entity.User;
+import com.pdq.entity.Order;
+import com.pdq.entity.OrderStatus;
+import com.pdq.entity.PaymentMethod;
+import com.pdq.entity.PaymentStatus;
+import com.pdq.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -64,8 +64,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // Revenue by payment method and date range
     // ========================================
     @Query("SELECT COALESCE(SUM(o.finalAmount), 0) FROM Order o " +
-           "WHERE o.orderStatus = com.nhom1ck.webdatdoan.entity.OrderStatus.delivered " +
-           "AND o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
+           "WHERE o.orderStatus = com.pdq.entity.OrderStatus.delivered " +
+           "AND o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
            "AND o.paymentMethod = :paymentMethod " +
            "AND (:dateFrom IS NULL OR o.createdAt >= :dateFrom) " +
            "AND (:dateTo IS NULL OR o.createdAt <= :dateTo)")
@@ -76,8 +76,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     );
 
     @Query("SELECT COALESCE(SUM(o.finalAmount), 0) FROM Order o " +
-           "WHERE o.orderStatus = com.nhom1ck.webdatdoan.entity.OrderStatus.delivered " +
-           "AND o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
+           "WHERE o.orderStatus = com.pdq.entity.OrderStatus.delivered " +
+           "AND o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
            "AND (:dateFrom IS NULL OR o.createdAt >= :dateFrom) " +
            "AND (:dateTo IS NULL OR o.createdAt <= :dateTo)")
     BigDecimal sumTotalRevenueByDateRange(
@@ -89,8 +89,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // Count orders by payment method and date range
     // ========================================
     @Query("SELECT COUNT(o) FROM Order o " +
-           "WHERE o.orderStatus = com.nhom1ck.webdatdoan.entity.OrderStatus.delivered " +
-           "AND o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
+           "WHERE o.orderStatus = com.pdq.entity.OrderStatus.delivered " +
+           "AND o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
            "AND o.paymentMethod = :paymentMethod " +
            "AND (:dateFrom IS NULL OR o.createdAt >= :dateFrom) " +
            "AND (:dateTo IS NULL OR o.createdAt <= :dateTo)")
@@ -101,8 +101,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     );
 
     @Query("SELECT COUNT(o) FROM Order o " +
-           "WHERE o.orderStatus = com.nhom1ck.webdatdoan.entity.OrderStatus.delivered " +
-           "AND o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
+           "WHERE o.orderStatus = com.pdq.entity.OrderStatus.delivered " +
+           "AND o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
            "AND (:dateFrom IS NULL OR o.createdAt >= :dateFrom) " +
            "AND (:dateTo IS NULL OR o.createdAt <= :dateTo)")
     Long countTotalOrdersByDateRange(
@@ -116,8 +116,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT DISTINCT o FROM Order o " +
            "LEFT JOIN FETCH o.items items " +
            "LEFT JOIN FETCH items.product " +
-           "WHERE o.orderStatus = com.nhom1ck.webdatdoan.entity.OrderStatus.delivered " +
-           "AND o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
+           "WHERE o.orderStatus = com.pdq.entity.OrderStatus.delivered " +
+           "AND o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
            "AND (:dateFrom IS NULL OR o.createdAt >= :dateFrom) " +
            "AND (:dateTo IS NULL OR o.createdAt <= :dateTo)")
     List<Order> findCompletedOrdersWithItemsByDateRange(
@@ -125,8 +125,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("dateTo") LocalDateTime dateTo
     );
 
-    @Query("SELECT o FROM Order o WHERE o.paymentStatus = com.nhom1ck.webdatdoan.entity.PaymentStatus.paid " +
-           "AND o.orderStatus <> com.nhom1ck.webdatdoan.entity.OrderStatus.cancelled " +
+    @Query("SELECT o FROM Order o WHERE o.paymentStatus = com.pdq.entity.PaymentStatus.paid " +
+           "AND o.orderStatus <> com.pdq.entity.OrderStatus.cancelled " +
            "AND o.createdAt >= :startTime AND o.createdAt <= :endTime")
     List<Order> findPaidOrdersInTimeRange(
             @Param("startTime") LocalDateTime startTime,
@@ -134,4 +134,3 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserUserIdOrderByCreatedAtDesc(Long userId);
 }
-

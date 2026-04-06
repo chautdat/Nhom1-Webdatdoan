@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.auth;
+package com.pdq.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

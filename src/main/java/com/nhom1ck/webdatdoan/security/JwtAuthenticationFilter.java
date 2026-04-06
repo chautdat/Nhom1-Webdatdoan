@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.security;
+package com.pdq.security;
 
 import java.io.IOException;
 import java.util.List;
@@ -147,10 +147,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             System.err.println("❌ JWT FILTER EXCEPTION:");
             System.err.println("❌ Error: " + e.getMessage());
             System.err.println("❌ Class: " + e.getClass().getName());
+            e.printStackTrace();
         }
         
         System.out.println("➡️  Proceeding to next filter...");

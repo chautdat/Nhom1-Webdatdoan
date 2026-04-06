@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.cart;
+package com.pdq.dto.cart;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

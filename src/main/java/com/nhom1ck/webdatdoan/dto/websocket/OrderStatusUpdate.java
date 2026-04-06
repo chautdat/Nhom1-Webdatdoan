@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.websocket;
+package com.pdq.dto.websocket;
 
 import java.time.LocalDateTime;
 
@@ -17,4 +17,3 @@ public class OrderStatusUpdate {
     private LocalDateTime timestamp;
     private String customerEmail;
 }
-

@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.controller;
+package com.pdq.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
-import com.nhom1ck.webdatdoan.dto.product.ProductResponse;
-import com.nhom1ck.webdatdoan.service.ProductService;
+import com.pdq.dto.common.ApiResponse;
+import com.pdq.dto.product.ProductResponse;
+import com.pdq.service.ProductService;
 
 @RestController
 @RequestMapping("/api/admin/products")

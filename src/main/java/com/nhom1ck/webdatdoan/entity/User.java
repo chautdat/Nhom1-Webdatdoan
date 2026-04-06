@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.entity;
+package com.pdq.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

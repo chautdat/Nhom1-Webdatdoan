@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.service;
+package com.pdq.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -6,16 +6,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nhom1ck.webdatdoan.dto.auth.AuthResponse;
-import com.nhom1ck.webdatdoan.dto.auth.LoginRequest;
-import com.nhom1ck.webdatdoan.dto.auth.RegisterRequest;
-import com.nhom1ck.webdatdoan.entity.User;
-import com.nhom1ck.webdatdoan.entity.UserRole;
-import com.nhom1ck.webdatdoan.entity.UserStatus;
-import com.nhom1ck.webdatdoan.exception.BadRequestException;
-import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
-import com.nhom1ck.webdatdoan.repository.UserRepository;
-import com.nhom1ck.webdatdoan.security.JwtService;
+import com.pdq.dto.auth.AuthResponse;
+import com.pdq.dto.auth.LoginRequest;
+import com.pdq.dto.auth.RegisterRequest;
+import com.pdq.entity.User;
+import com.pdq.entity.UserRole;
+import com.pdq.entity.UserStatus;
+import com.pdq.exception.BadRequestException;
+import com.pdq.exception.ResourceNotFoundException;
+import com.pdq.repository.UserRepository;
+import com.pdq.security.JwtService;
 
 @Service
 public class AuthService {
@@ -124,8 +124,8 @@ public class AuthService {
     }
 
     // ✅ GET CURRENT USER
-    public AuthResponse.UserInfo getCurrentUser(String identifier) {
-        User user = userRepository.findByUsernameOrEmail(identifier, identifier)
+    public AuthResponse.UserInfo getCurrentUser(String username) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo();
@@ -140,8 +140,8 @@ public class AuthService {
 
     // ✅ VERIFY PASSWORD
     @Transactional
-    public boolean verifyOldPassword(String identifier, String oldPassword) {
-        User user = userRepository.findByUsernameOrEmail(identifier, identifier)
+    public boolean verifyOldPassword(String username, String oldPassword) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return passwordEncoder.matches(oldPassword, user.getPassword());
@@ -149,8 +149,8 @@ public class AuthService {
 
     // ✅ CHANGE PASSWORD
     @Transactional
-    public void changePassword(String identifier, String oldPassword, String newPassword) {
-        User user = userRepository.findByUsernameOrEmail(identifier, identifier)
+    public void changePassword(String username, String oldPassword, String newPassword) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         // Check old password

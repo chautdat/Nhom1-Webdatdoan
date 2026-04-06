@@ -1,9 +1,5 @@
-package com.nhom1ck.webdatdoan.entity;
+package com.pdq.entity;
 
 public enum PaymentStatus {
-    pending,
-    paid,
-    failed,
-    expired,
-    cancelled
+    pending, paid, failed, refunded
 }

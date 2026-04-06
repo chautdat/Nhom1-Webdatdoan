@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.config;
+package com.pdq.config;
 
 import java.util.Arrays;
 

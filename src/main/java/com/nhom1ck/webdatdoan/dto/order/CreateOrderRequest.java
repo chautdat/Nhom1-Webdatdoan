@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.order;
+package com.pdq.dto.order;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,4 +28,3 @@ public class CreateOrderRequest {
 
     private String notes;
 }
-

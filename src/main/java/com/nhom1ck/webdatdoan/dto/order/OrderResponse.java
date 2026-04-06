@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.order;
+package com.pdq.dto.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -50,4 +50,3 @@ public class OrderResponse {
         private BigDecimal subtotal;
     }
 }
-

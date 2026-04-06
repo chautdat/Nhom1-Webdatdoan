@@ -1,10 +1,9 @@
-package com.nhom1ck.webdatdoan.dto.address;
+package com.pdq.dto.address;
 
 import java.time.LocalDateTime;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor

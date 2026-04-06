@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.product;
+package com.pdq.dto.product;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

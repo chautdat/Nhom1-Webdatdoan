@@ -1,9 +1,9 @@
-package com.nhom1ck.webdatdoan.dto;
+package com.pdq.dto;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nhom1ck.webdatdoan.entity.Category;
+import com.pdq.entity.Category;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

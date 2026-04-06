@@ -1,9 +1,9 @@
-package com.nhom1ck.webdatdoan.service;
+package com.pdq.service;
 
-import com.nhom1ck.webdatdoan.dto.OrderWebSocketMessage;
-import com.nhom1ck.webdatdoan.dto.websocket.OrderStatusUpdate;
-import com.nhom1ck.webdatdoan.entity.Order;
-import com.nhom1ck.webdatdoan.entity.OrderItem;
+import com.pdq.dto.OrderWebSocketMessage;
+import com.pdq.dto.websocket.OrderStatusUpdate;
+import com.pdq.entity.Order;
+import com.pdq.entity.OrderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -44,7 +44,7 @@ public class WebSocketService {
         payload.put("action", action);
         payload.put("details", details);
         payload.put("timestamp", System.currentTimeMillis());
-        messagingTemplate.convertAndSend("/topic/kitchen", (Object) payload);
+        messagingTemplate.convertAndSend("/topic/kitchen", payload);
         log.info("👩‍🍳 Sent kitchen notification for order {}", orderId);
     }
 
@@ -113,4 +113,3 @@ public class WebSocketService {
         return payload;
     }
 }
-

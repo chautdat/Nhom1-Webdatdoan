@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.service;
+package com.pdq.service;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -16,33 +16,33 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nhom1ck.webdatdoan.dto.common.PageResponse;
-import com.nhom1ck.webdatdoan.dto.order.CancelOrderRequest;
-import com.nhom1ck.webdatdoan.dto.order.CreateOrderRequest;
-import com.nhom1ck.webdatdoan.dto.order.OrderResponse;
-import com.nhom1ck.webdatdoan.dto.order.UpdateOrderStatusRequest;
-import com.nhom1ck.webdatdoan.entity.Cart;
-import com.nhom1ck.webdatdoan.entity.CartItem;
-import com.nhom1ck.webdatdoan.entity.Order;
-import com.nhom1ck.webdatdoan.entity.OrderCancellation;
-import com.nhom1ck.webdatdoan.entity.OrderItem;
-import com.nhom1ck.webdatdoan.entity.OrderStatus;
-import com.nhom1ck.webdatdoan.entity.PaymentLog;
-import com.nhom1ck.webdatdoan.entity.PaymentMethod;
-import com.nhom1ck.webdatdoan.entity.PaymentStatus;
-import com.nhom1ck.webdatdoan.entity.Product;
-import com.nhom1ck.webdatdoan.entity.User;
-import com.nhom1ck.webdatdoan.entity.UserRole;
-import com.nhom1ck.webdatdoan.exception.BadRequestException;
-import com.nhom1ck.webdatdoan.exception.ResourceNotFoundException;
-import com.nhom1ck.webdatdoan.repository.CartItemRepository;
-import com.nhom1ck.webdatdoan.repository.CartRepository;
-import com.nhom1ck.webdatdoan.repository.OrderCancellationRepository;
-import com.nhom1ck.webdatdoan.repository.OrderItemRepository;
-import com.nhom1ck.webdatdoan.repository.OrderRepository;
-import com.nhom1ck.webdatdoan.repository.PaymentLogRepository;
-import com.nhom1ck.webdatdoan.repository.ProductRepository;
-import com.nhom1ck.webdatdoan.repository.UserRepository;
+import com.pdq.dto.common.PageResponse;
+import com.pdq.dto.order.CancelOrderRequest;
+import com.pdq.dto.order.CreateOrderRequest;
+import com.pdq.dto.order.OrderResponse;
+import com.pdq.dto.order.UpdateOrderStatusRequest;
+import com.pdq.entity.Cart;
+import com.pdq.entity.CartItem;
+import com.pdq.entity.Order;
+import com.pdq.entity.OrderCancellation;
+import com.pdq.entity.OrderItem;
+import com.pdq.entity.OrderStatus;
+import com.pdq.entity.PaymentLog;
+import com.pdq.entity.PaymentMethod;
+import com.pdq.entity.PaymentStatus;
+import com.pdq.entity.Product;
+import com.pdq.entity.User;
+import com.pdq.entity.UserRole;
+import com.pdq.exception.BadRequestException;
+import com.pdq.exception.ResourceNotFoundException;
+import com.pdq.repository.CartItemRepository;
+import com.pdq.repository.CartRepository;
+import com.pdq.repository.OrderCancellationRepository;
+import com.pdq.repository.OrderItemRepository;
+import com.pdq.repository.OrderRepository;
+import com.pdq.repository.PaymentLogRepository;
+import com.pdq.repository.ProductRepository;
+import com.pdq.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -748,4 +748,3 @@ public class OrderService {
         return "ORD";
     }
 }
-

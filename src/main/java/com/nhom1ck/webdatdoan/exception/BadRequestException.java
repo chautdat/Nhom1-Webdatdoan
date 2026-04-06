@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.exception;
+package com.pdq.exception;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

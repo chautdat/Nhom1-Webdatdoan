@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.entity;
+package com.pdq.entity;
 
 public enum UserRole {
     ROLE_ADMIN,

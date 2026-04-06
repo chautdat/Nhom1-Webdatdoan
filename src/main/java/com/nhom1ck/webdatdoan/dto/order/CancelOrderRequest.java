@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.order;
+package com.pdq.dto.order;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -9,4 +9,3 @@ public class CancelOrderRequest {
     private String reason;
     private String additionalNotes;
 }
-

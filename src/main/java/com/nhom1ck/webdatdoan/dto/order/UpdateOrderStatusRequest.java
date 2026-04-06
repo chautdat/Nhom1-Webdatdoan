@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.order;
+package com.pdq.dto.order;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

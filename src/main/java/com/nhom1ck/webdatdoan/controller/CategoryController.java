@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.controller;
+package com.pdq.controller;
 
 import java.text.Normalizer;
 import java.util.List;
@@ -9,12 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.nhom1ck.webdatdoan.dto.CategoryRequest;
-import com.nhom1ck.webdatdoan.dto.CategoryResponse;
-import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
-import com.nhom1ck.webdatdoan.entity.Category;
-import com.nhom1ck.webdatdoan.repository.CategoryRepository;
-import com.nhom1ck.webdatdoan.repository.ProductRepository;
+import com.pdq.dto.CategoryRequest;
+import com.pdq.dto.CategoryResponse;
+import com.pdq.dto.common.ApiResponse;
+import com.pdq.entity.Category;
+import com.pdq.repository.CategoryRepository;
+import com.pdq.repository.ProductRepository;
 
 import jakarta.validation.Valid;
 

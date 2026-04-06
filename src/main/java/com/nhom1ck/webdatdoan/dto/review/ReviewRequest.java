@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.review;
+package com.pdq.dto.review;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

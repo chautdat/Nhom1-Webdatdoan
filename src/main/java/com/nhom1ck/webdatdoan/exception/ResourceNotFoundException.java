@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.exception;
+package com.pdq.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

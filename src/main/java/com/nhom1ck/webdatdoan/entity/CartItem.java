@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.entity;
+package com.pdq.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

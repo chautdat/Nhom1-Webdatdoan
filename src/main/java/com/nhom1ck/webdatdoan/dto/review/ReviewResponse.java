@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.review;
+package com.pdq.dto.review;
 
 import java.time.LocalDateTime;
 import lombok.Data;

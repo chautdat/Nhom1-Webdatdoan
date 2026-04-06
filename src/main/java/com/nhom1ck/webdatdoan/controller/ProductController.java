@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.controller;
+package com.pdq.controller;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nhom1ck.webdatdoan.dto.common.ApiResponse;
-import com.nhom1ck.webdatdoan.dto.common.PageResponse;
-import com.nhom1ck.webdatdoan.dto.product.ProductRequest;
-import com.nhom1ck.webdatdoan.dto.product.ProductResponse;
-import com.nhom1ck.webdatdoan.service.ProductService;
+import com.pdq.dto.common.ApiResponse;
+import com.pdq.dto.common.PageResponse;
+import com.pdq.dto.product.ProductRequest;
+import com.pdq.dto.product.ProductResponse;
+import com.pdq.service.ProductService;
 
 import jakarta.validation.Valid;
 

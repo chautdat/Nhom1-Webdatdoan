@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.entity;
+package com.pdq.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.dto.common;
+package com.pdq.dto.common;
 
 import java.util.List;
 import lombok.Data;

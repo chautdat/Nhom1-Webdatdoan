@@ -1,4 +1,4 @@
-package com.nhom1ck.webdatdoan.repository;
+package com.pdq.repository;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.nhom1ck.webdatdoan.entity.Product;
-import com.nhom1ck.webdatdoan.entity.Review;
-import com.nhom1ck.webdatdoan.entity.ReviewStatus;
-import com.nhom1ck.webdatdoan.entity.User;
+import com.pdq.entity.Product;
+import com.pdq.entity.Review;
+import com.pdq.entity.ReviewStatus;
+import com.pdq.entity.User;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
