@@ -148,8 +148,30 @@ Nhom1 Web Đặt Đồ Ăn được xây dựng nhằm:
 - **Image Upload / Static Files**
   - Ảnh món ăn và danh mục được lưu trong thư mục `uploads` và phục vụ qua URL `/uploads/**`
 
+### Docker
+- **Docker**
+  - Container hóa toàn bộ hệ thống để dễ triển khai và đồng nhất môi trường chạy
+
+- **Docker Compose**
+  - Chạy đồng thời các service:
+    - `mysql`
+    - `backend`
+    - `frontend`
+  - Backend chạy trên cổng `3000`
+  - Frontend chạy trên cổng `8080`
+  - MySQL được expose ra `3307` ở máy local
+
+- **Backend Dockerfile**
+  - Build Spring Boot application bằng Maven
+  - Đóng gói backend thành một image chạy độc lập
+
+- **Frontend Dockerfile**
+  - Build Vue application và phục vụ bằng Nginx
+  - Hỗ trợ gọi API qua `/api` và realtime qua WebSocket `/ws`
+
 ---
 ## Ghi chú
 - Backend và frontend được phát triển tách biệt nhưng cùng nằm trong một repository.
 - Hệ thống đang dùng JWT để xác thực và WebSocket để cập nhật realtime.
 - Ảnh món ăn và danh mục được upload qua API và hiển thị lại từ thư mục `uploads/`.
+- Dự án có thể triển khai bằng Docker Compose để chạy backend, frontend và MySQL cùng lúc.
