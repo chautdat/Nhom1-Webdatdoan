@@ -1,0 +1,10 @@
+frontend/
+target/
+logs/
+*.log
+**/.DS_Store
+.git
+.github
+.idea
+.vscode
+README.md
